@@ -1,0 +1,271 @@
+{
+  "title": "Budget",
+  "type": "object",
+  "oneOf": [
+    {
+      "$comment": "EI without FSs",
+      "required": [
+        "id",
+        "period"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/definitions/Period"
+        }
+      }
+    },
+    {
+      "$comment": "EI with FSs",
+      "required": [
+        "id",
+        "period",
+        "amount"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/definitions/Period"
+        },
+        "amount": {
+          "$ref": "#/definitions/Amount"
+        }
+      }
+    },
+    {
+      "$comment": "FS",
+      "required": [
+        "period",
+        "amount",
+        "isEuropeanUnionFunded",
+        "verified",
+        "sourceEntity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "period": {
+          "$ref": "#/definitions/Period"
+        },
+        "amount": {
+          "$ref": "#/definitions/Amount"
+        },
+        "project": {
+          "type": "string"
+        },
+        "projectID": {
+          "type": "string"
+        },
+        "sourceEntity": {
+          "$ref": "#/definitions/SourceOrganization"
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "isEuropeanUnionFunded": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "properties": {
+          "isEuropeanUnionFunded": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "europeanUnionFunding"
+        ],
+        "properties": {
+          "europeanUnionFunding": {
+            "type": "object",
+            "required": [
+              "projectName",
+              "projectIdentifier"
+            ],
+            "properties": {
+              "projectName": {
+                "type": "string"
+              },
+              "projectIdentifier": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "europeanUnionFunding": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "$comment": "MS",
+      "required": [
+        "amount",
+        "isEuropeanUnionFunded",
+        "budgetBreakdown"
+      ],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "amount": {
+          "$ref": "#/definitions/Amount"
+        },
+        "isEuropeanUnionFunded": {
+          "type": "boolean"
+        },
+        "budgetBreakdown": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "amount",
+              "period",
+              "sourceParty"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "amount": {
+                "$ref": "#/definitions/Amount"
+              },
+              "period": {
+                "$ref": "#/definitions/Period"
+              },
+              "sourceParty": {
+                "$ref": "#/definitions/SourceOrganization"
+              },
+              "europeanUnionFunding": {
+                "type": "object",
+                "required": [
+                  "projectName",
+                  "projectIdentifier"
+                ],
+                "properties": {
+                  "projectName": {
+                    "type": "string"
+                  },
+                  "projectIdentifier": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "budgetBreakdown": {
+            "items": {
+              "properties": {
+                "europeanUnionFunding": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "isEuropeanUnionFunded": {
+            "const": false
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "isEuropeanUnionFunded": {
+            "const": true
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "Period": {
+      "type": "object",
+      "required": [
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Amount": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        }
+      }
+    },
+    "SourceOrganization": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
