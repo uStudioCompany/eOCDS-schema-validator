@@ -8,6 +8,7 @@ import "brace/mode/json";
 import "brace/theme/chrome";
 
 import budgetSchema from "./schemas/budget.json";
+import createEISchema from "./schemas/create-ei.json";
 
 import "jsoneditor-react/es/editor.min.css";
 import "./App.css";
@@ -112,6 +113,21 @@ class App extends Component {
           }
         );
         break;
+      case "createEISchema":
+        this.setState(
+          {
+            preset: e.currentTarget.value,
+            inputSchema: createEISchema,
+            errors: [],
+            schemaIsValid: true,
+            errorSchemaMessage: [],
+          },
+          () => {
+            this.schemaJsonEditor.set(this.state.inputSchema);
+            this.validateInputs(this.state.inputSchema, this.state.inputData);
+          }
+        );
+        break;
       default:
         this.setState(
           {
@@ -143,7 +159,8 @@ class App extends Component {
           <h3>Presets schemas</h3>
           <select className="preset-select" value={preset} onChange={this.handleChangePreset}>
             <option value="">-</option>
-            <option value="budget">Budget</option>
+            {/* <option value="budget">Budget</option> */}
+            <option value="createEISchema">Create EI Schema</option>
           </select>
           <button
             className="validate-button"
