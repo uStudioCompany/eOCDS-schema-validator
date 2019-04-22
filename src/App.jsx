@@ -7,8 +7,10 @@ import ace from "brace";
 import "brace/mode/json";
 import "brace/theme/chrome";
 
+// eslint-disable-next-line
 import budgetSchema from "./schemas/budget.json";
 import createEISchema from "./schemas/create-ei.json";
+import createFSSchema from "./schemas/create-fs.json";
 
 import "jsoneditor-react/es/editor.min.css";
 import "./App.css";
@@ -27,7 +29,8 @@ class App extends Component {
       errorSchemaMessage: [],
       presetSchemas: {
         //budgetSchema,
-        createEISchema
+        "Schema for create EI": createEISchema,
+        "Schema for create FS": createFSSchema
       }
     };
   }
@@ -130,7 +133,7 @@ class App extends Component {
           <h3>Presets schemas</h3>
           <select className="preset-select" value={preset} onChange={this.handleChangePreset}>
             <option value="">-</option>
-            {Object.keys(presetSchemas).map(schema => (<option key={schema} value={schema}>{schema}</option>))}
+            {Object.keys(presetSchemas).map(schemaName => (<option key={schemaName} value={schemaName}>{schemaName}</option>))}
           </select>
           <button
             className="validate-button"
