@@ -1,0 +1,470 @@
+{
+  "type": "object",
+  "required": [
+    "tender",
+    "planning"
+  ],
+  "properties": {
+    "tender": {
+      "type": "object",
+      "required": [
+        "procuringEntity"
+      ],
+      "properties": {
+        "procuringEntity": {
+          "type": "object",
+          "required": [
+            "name",
+            "identifier",
+            "address",
+            "contactPoint"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "identifier": {
+              "type": "object",
+              "required": [
+                "scheme",
+                "id",
+                "legalName"
+              ],
+              "properties": {
+                "scheme": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "legalName": {
+                  "type": "string"
+                },
+                "uri": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "address": {
+              "type": "object",
+              "required": [
+                "streetAddress",
+                "addressDetails"
+              ],
+              "properties": {
+                "streetAddress": {
+                  "type": "string"
+                },
+                "postalCode": {
+                  "type": "string"
+                },
+                "addressDetails": {
+                  "type": "object",
+                  "required": [
+                    "country",
+                    "region",
+                    "locality"
+                  ],
+                  "properties": {
+                    "country": {
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "region": {
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "locality": {
+                      "type": "object",
+                      "required": [
+                        "scheme",
+                        "id"
+                      ],
+                      "properties": {
+                        "scheme": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "if": {
+                        "properties": {
+                          "scheme": {
+                            "const": "CUATM"
+                          }
+                        }
+                      },
+                      "then": {
+                        "required": [
+                          "description"
+                        ],
+                        "properties": {
+                          "description": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "additionalIdentifiers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "scheme",
+                  "legalName"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "scheme": {
+                    "type": "string"
+                  },
+                  "legalName": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            },
+            "contactPoint": {
+              "type": "object",
+              "required": [
+                "name",
+                "email",
+                "telephone"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "telephone": {
+                  "type": "string"
+                },
+                "faxNumber": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "planning": {
+      "type": "object",
+      "required": [
+        "budget"
+      ],
+      "properties": {
+        "budget": {
+          "type": "object",
+          "required": [
+            "period",
+            "amount",
+            "isEuropeanUnionFunded"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "period": {
+              "type": "object",
+              "required": [
+                "startDate",
+                "endDate"
+              ],
+              "properties": {
+                "startDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
+                },
+                "endDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
+                }
+              }
+            },
+            "amount": {
+              "type": "object",
+              "required": [
+                "amount",
+                "currency"
+              ],
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "currency": {
+                  "type": "string"
+                }
+              }
+            },
+            "project": {
+              "type": "string"
+            },
+            "projectID": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri"
+            },
+            "isEuropeanUnionFunded": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "isEuropeanUnionFunded": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "europeanUnionFunding"
+            ],
+            "properties": {
+              "europeanUnionFunding": {
+                "type": "object",
+                "required": [
+                  "projectName",
+                  "projectIdentifier"
+                ],
+                "properties": {
+                  "projectName": {
+                    "type": "string"
+                  },
+                  "projectIdentifier": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "europeanUnionFunding": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        "rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "buyer": {
+      "type": "object",
+      "required": [
+        "name",
+        "identifier",
+        "address",
+        "contactPoint"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "object",
+          "required": [
+            "scheme",
+            "id",
+            "legalName"
+          ],
+          "properties": {
+            "scheme": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "legalName": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        },
+        "address": {
+          "type": "object",
+          "required": [
+            "streetAddress",
+            "addressDetails"
+          ],
+          "properties": {
+            "streetAddress": {
+              "type": "string"
+            },
+            "postalCode": {
+              "type": "string"
+            },
+            "addressDetails": {
+              "type": "object",
+              "required": [
+                "country",
+                "region",
+                "locality"
+              ],
+              "properties": {
+                "country": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "region": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "locality": {
+                  "type": "object",
+                  "required": [
+                    "scheme",
+                    "id"
+                  ],
+                  "properties": {
+                    "scheme": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "scheme": {
+                        "const": "CUATM"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "description"
+                    ],
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalIdentifiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "scheme",
+              "legalName"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "scheme": {
+                "type": "string"
+              },
+              "legalName": {
+                "type": "string"
+              },
+              "uri": {
+                "type": "string",
+                "format": "uri"
+              }
+            }
+          }
+        },
+        "contactPoint": {
+          "type": "object",
+          "required": [
+            "name",
+            "email",
+            "telephone"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "telephone": {
+              "type": "string"
+            },
+            "faxNumber": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
