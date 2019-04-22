@@ -118,6 +118,12 @@
             "addressDetails"
           ],
           "properties": {
+            "streetAddress": {
+              "type": "string"
+            },
+            "postalCode": {
+              "type": "string"
+            },
             "addressDetails": {
               "type": "object",
               "required": [
@@ -152,8 +158,7 @@
                   "type": "object",
                   "required": [
                     "scheme",
-                    "id",
-                    "description"
+                    "id"
                   ],
                   "properties": {
                     "scheme": {
@@ -161,18 +166,26 @@
                     },
                     "id": {
                       "type": "string"
-                    },
-                    "description": {
-                      "type": "string"
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "scheme": {
+                        "const": "CUATM"
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "description"
+                    ],
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
-              },
-              "streetAddress": {
-                "type": "string"
-              },
-              "postalCode": {
-                "type": "string"
               }
             }
           }
@@ -236,14 +249,12 @@
             "typeOfBuyer": {
               "type": "string",
               "enum": [
-
-                  "NATIONAL_AGENCY",
-                  "REGIONAL_AUTHORITY",
-                  "REGIONAL_AGENCY",
-                  "BODY_PUBLIC",
-                  "EU_INSTITUTION",
-                  "MINISTRY"
-
+                "NATIONAL_AGENCY",
+                "REGIONAL_AUTHORITY",
+                "REGIONAL_AGENCY",
+                "BODY_PUBLIC",
+                "EU_INSTITUTION",
+                "MINISTRY"
               ]
             },
             "mainGeneralActivity": {
@@ -282,9 +293,3 @@
     }
   }
 }
-
-
-
-
-
-
