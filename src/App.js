@@ -12,7 +12,7 @@ import budgetSchema from "./schemas/budget.json";
 import "jsoneditor-react/es/editor.min.css";
 import "./App.css";
 
-const ajvForData = new Ajv({ allErrors: true, verbose: true });
+const ajvForData = new Ajv({ allErrors: true, verbose: true, validateSchema: false });
 
 class App extends Component {
   constructor(props) {
@@ -22,6 +22,8 @@ class App extends Component {
       inputSchema: {},
       inputData: {},
       errors: [],
+      schemaIsValid: true,
+      errorSchemaMessage: [],
     };
   }
 
@@ -68,14 +70,25 @@ class App extends Component {
   };
 
   handleChangeSchema = (val) => {
-    console.log(val);
-    this.setState({ inputSchema: val }, () => {
-      this.validateInputs(this.state.inputSchema, this.state.inputData);
-    });
+    const ajvForSchema = new Ajv();
+
+    if (ajvForSchema.validateSchema(val)) {
+      this.setState(
+        {
+          inputSchema: val,
+          schemaIsValid: true,
+          errorSchemaMessage: [],
+        },
+        () => {
+          this.validateInputs(this.state.inputSchema, this.state.inputData);
+        }
+      );
+    } else {
+      this.setState({ errors: [], schemaIsValid: false, errorSchemaMessage: ajvForSchema.errors });
+    }
   };
 
   handleChangeData = (val) => {
-    console.log(val);
     this.setState({ inputData: val }, () => {
       this.validateInputs(this.state.inputSchema, this.state.inputData);
       this.saveDataToLocalStorage();
@@ -90,6 +103,8 @@ class App extends Component {
             preset: e.currentTarget.value,
             inputSchema: budgetSchema,
             errors: [],
+            schemaIsValid: true,
+            errorSchemaMessage: [],
           },
           () => {
             this.schemaJsonEditor.set(this.state.inputSchema);
@@ -103,6 +118,8 @@ class App extends Component {
             preset: "",
             inputSchema: {},
             errors: [],
+            schemaIsValid: true,
+            errorSchemaMessage: [],
           },
           () => {
             this.schemaJsonEditor.set(this.state.inputSchema);
@@ -117,7 +134,7 @@ class App extends Component {
   };
 
   render() {
-    const { preset, inputSchema, inputData, errors } = this.state;
+    const { preset, inputSchema, inputData, errors, schemaIsValid, errorSchemaMessage } = this.state;
     const showStatus = !!inputSchema && !!inputData;
 
     return (
@@ -128,10 +145,13 @@ class App extends Component {
             <option value="">-</option>
             <option value="budget">Budget</option>
           </select>
-          <button className="validate-button" onClick={() => this.validateInputs(inputSchema, inputData)}>
+          <button
+            className="validate-button"
+            disabled={!schemaIsValid}
+            onClick={() => this.validateInputs(inputSchema, inputData)}>
             Validate
           </button>
-          {showStatus && (
+          {showStatus && schemaIsValid && (
             <span
               className={
                 !!errors.length ? "validate-status validate-status_invalid" : "validate-status validate-status_valid"
@@ -139,6 +159,7 @@ class App extends Component {
               {!!errors.length ? "Data is not valid" : "Data is valid"}
             </span>
           )}
+          {!schemaIsValid && <span className="validate-status validate-status_invalid">Error parsing schema</span>}
         </div>
         <div className="editors">
           <div className="schema-editor">
@@ -146,7 +167,8 @@ class App extends Component {
             <Editor
               ref={this.setSchemaRef}
               value={inputSchema}
-              mode="code"
+              mode="view"
+              allowedModes={["view", "code"]}
               onChange={this.handleChangeSchema}
               ace={ace}
               theme="ace/theme/chrome"
@@ -166,9 +188,39 @@ class App extends Component {
             />
           </div>
         </div>
-        {!!errors.length && <h3>Errors</h3>}
+        {(!!errors.length || !!errorSchemaMessage.length) && <h3>Errors</h3>}
         <div className="errors">
           {errors.map((error, i) => (
+            <div className="error" key={i}>
+              <h4>№ {i + 1}</h4>
+              <p>
+                Keyword of error: <b>{error.keyword}</b>
+              </p>
+              <p>
+                Schema path: <b>{error.schemaPath}</b>
+              </p>
+              <p>
+                Data path: <b>{error.dataPath || "-"}</b>
+              </p>
+              <p>
+                Message: <b>{error.message}</b>
+              </p>
+              {"params" in error && <p>Details:</p>}
+              {"params" in error && (
+                <ul>
+                  {Object.entries(error.params).map((param) => (
+                    <li key={param[0]}>
+                      {param[0]} : <b>{param[1] || "-"}</b>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="errors">
+          {errorSchemaMessage.map((error, i) => (
             <div className="error" key={i}>
               <h4>№ {i + 1}</h4>
               <p>
