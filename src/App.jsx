@@ -25,6 +25,10 @@ class App extends Component {
       errors: [],
       schemaIsValid: true,
       errorSchemaMessage: [],
+      presetSchemas: {
+        //budgetSchema,
+        createEISchema
+      }
     };
   }
 
@@ -67,7 +71,7 @@ class App extends Component {
       } else {
         this.setState({ errors: [] });
       }
-    } catch (e) {}
+    } catch (e) { }
   };
 
   handleChangeSchema = (val) => {
@@ -97,52 +101,19 @@ class App extends Component {
   };
 
   handleChangePreset = (e) => {
-    switch (e.currentTarget.value) {
-      case "budget":
-        this.setState(
-          {
-            preset: e.currentTarget.value,
-            inputSchema: budgetSchema,
-            errors: [],
-            schemaIsValid: true,
-            errorSchemaMessage: [],
-          },
-          () => {
-            this.schemaJsonEditor.set(this.state.inputSchema);
-            this.validateInputs(this.state.inputSchema, this.state.inputData);
-          }
-        );
-        break;
-      case "createEISchema":
-        this.setState(
-          {
-            preset: e.currentTarget.value,
-            inputSchema: createEISchema,
-            errors: [],
-            schemaIsValid: true,
-            errorSchemaMessage: [],
-          },
-          () => {
-            this.schemaJsonEditor.set(this.state.inputSchema);
-            this.validateInputs(this.state.inputSchema, this.state.inputData);
-          }
-        );
-        break;
-      default:
-        this.setState(
-          {
-            preset: "",
-            inputSchema: {},
-            errors: [],
-            schemaIsValid: true,
-            errorSchemaMessage: [],
-          },
-          () => {
-            this.schemaJsonEditor.set(this.state.inputSchema);
-            this.validateInputs(this.state.inputSchema, this.state.inputData);
-          }
-        );
-    }
+    this.setState(
+      {
+        preset: e.currentTarget.value,
+        inputSchema: this.state.presetSchemas[e.currentTarget.value] || {},
+        errors: [],
+        schemaIsValid: true,
+        errorSchemaMessage: [],
+      },
+      () => {
+        this.schemaJsonEditor.set(this.state.inputSchema);
+        this.validateInputs(this.state.inputSchema, this.state.inputData);
+      }
+    );
   };
 
   saveDataToLocalStorage = async () => {
@@ -150,7 +121,7 @@ class App extends Component {
   };
 
   render() {
-    const { preset, inputSchema, inputData, errors, schemaIsValid, errorSchemaMessage } = this.state;
+    const { preset, inputSchema, inputData, presetSchemas, errors, schemaIsValid, errorSchemaMessage } = this.state;
     const showStatus = !!inputSchema && !!inputData;
 
     return (
@@ -159,8 +130,7 @@ class App extends Component {
           <h3>Presets schemas</h3>
           <select className="preset-select" value={preset} onChange={this.handleChangePreset}>
             <option value="">-</option>
-            {/* <option value="budget">Budget</option> */}
-            <option value="createEISchema">Create EI Schema</option>
+            {Object.keys(presetSchemas).map(schema => (<option key={schema} value={schema}>{schema}</option>))}
           </select>
           <button
             className="validate-button"
