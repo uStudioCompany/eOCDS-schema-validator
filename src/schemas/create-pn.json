@@ -11,9 +11,6 @@
         "budget"
       ],
       "properties": {
-        "rationale": {
-          "type": "string"
-        },
         "budget": {
           "type": "object",
           "required": [
@@ -56,6 +53,9 @@
               }
             }
           }
+        },
+        "rationale": {
+          "type": "string"
         }
       }
     },
@@ -319,7 +319,8 @@
                   },
                   "endDate": {
                     "type": "string",
-                    "format": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
+                    "format": "date-time",
+                    "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z"
                   }
                 }
               },
@@ -359,35 +360,35 @@
                               "id": {
                                 "type": "string"
                               }
-                            },
-                            "region": {
-                              "type": "object",
-                              "required": [
-                                "id"
-                              ],
-                              "properties": {
-                                "id": {
-                                  "type": "string"
-                                }
+                            }
+                          },
+                          "region": {
+                            "type": "object",
+                            "required": [
+                              "id"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "locality": {
+                            "type": "object",
+                            "required": [
+                              "scheme",
+                              "id",
+                              "description"
+                            ],
+                            "properties": {
+                              "scheme": {
+                                "type": "string"
                               },
-                              "locality": {
-                                "type": "object",
-                                "required": [
-                                  "scheme",
-                                  "id",
-                                  "description"
-                                ],
-                                "properties": {
-                                  "scheme": {
-                                    "type": "string"
-                                  },
-                                  "id": {
-                                    "type": "string"
-                                  },
-                                  "description": {
-                                    "type": "string"
-                                  }
-                                }
+                              "id": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
                               }
                             }
                           }
@@ -496,7 +497,27 @@
             ],
             "properties": {
               "documentType": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "tenderNotice",
+                  "procurementPlan",
+                  "biddingDocuments",
+                  "technicalSpecifications",
+                  "evaluationCriteria",
+                  "contractDraft",
+                  "eligibilityCriteria",
+                  "clarifications",
+                  "riskProvisions",
+                  "complaints",
+                  "billOfQuantity",
+                  "conflictOfInterest",
+                  "illustration",
+                  "cancellationDetails",
+                  "shortlistedFirms",
+                  "evaluationReports",
+                  "contractArrangements",
+                  "contractGuarantees"
+                ]
               },
               "id": {
                 "type": "string"
@@ -511,27 +532,7 @@
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                  "type": "string",
-                  "enum": [
-                    "tenderNotice",
-                    "procurementPlan",
-                    "biddingDocuments",
-                    "technicalSpecifications",
-                    "evaluationCriteria",
-                    "contractDraft",
-                    "eligibilityCriteria",
-                    "clarifications",
-                    "riskProvisions",
-                    "complaints",
-                    "billOfQuantity",
-                    "conflictOfInterest",
-                    "illustration",
-                    "cancellationDetails",
-                    "shortlistedFirms",
-                    "evaluationReports",
-                    "contractArrangements",
-                    "contractGuarantees"
-                  ]
+                  "type": "string"
                 }
               }
             }
