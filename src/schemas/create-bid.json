@@ -1,0 +1,274 @@
+{
+  "title": "JSON Schema for payload of Create Bid",
+  "type": "object",
+  "required": [
+    "bid"
+  ],
+  "properties": {
+    "bid": {
+      "type": "object",
+      "required": [
+        "tenderers",
+        "relatedLots"
+      ],
+      "properties": {
+        "tenderers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "identifier",
+              "address",
+              "contactPoint",
+              "details"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "identifier": {
+                "type": "object",
+                "required": [
+                  "scheme",
+                  "id",
+                  "legalName"
+                ],
+                "properties": {
+                  "scheme": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "legalName": {
+                    "type": "string"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "address": {
+                "type": "object",
+                "required": [
+                  "streetAddress",
+                  "addressDetails"
+                ],
+                "properties": {
+                  "streetAddress": {
+                    "type": "string"
+                  },
+                  "postalCode": {
+                    "type": "string"
+                  },
+                  "addressDetails": {
+                    "type": "object",
+                    "required": [
+                      "country",
+                      "region",
+                      "locality"
+                    ],
+                    "properties": {
+                      "country": {
+                        "type": "object",
+                        "required": [
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "region": {
+                        "type": "object",
+                        "required": [
+                          "id"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "locality": {
+                        "type": "object",
+                        "required": [
+                          "scheme",
+                          "id"
+                        ],
+                        "properties": {
+                          "scheme": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          }
+                        },
+                        "if": {
+                          "properties": {
+                            "scheme": {
+                              "const": "CUATM"
+                            }
+                          }
+                        },
+                        "then": {
+                          "required": [
+                            "description"
+                          ],
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalIdentifiers": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "scheme",
+                    "legalName"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "scheme": {
+                      "type": "string"
+                    },
+                    "legalName": {
+                      "type": "string"
+                    },
+                    "uri": {
+                      "type": "string",
+                      "format": "uri"
+                    }
+                  }
+                }
+              },
+              "contactPoint": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "email",
+                  "telephone"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "telephone": {
+                    "type": "string"
+                  },
+                  "faxNumber": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              },
+              "details": {
+                "type": "object",
+                "required": [
+                  "scale"
+                ],
+                "properties": {
+                  "scale": {
+                    "type": "string",
+                    "enum": [
+                      "micro",
+                      "sme",
+                      "large"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "value": {
+          "type": "object",
+          "required": [
+            "amount",
+            "currency"
+          ],
+          "properties": {
+            "amount": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "currency": {
+              "type": "string"
+            }
+          }
+        },
+        "documents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "documentType",
+              "id"
+            ],
+            "properties": {
+              "documentType": {
+                "type": "string",
+                "enum": [
+                  "illustration",
+                  "submissionDocuments",
+                  "x_commercialOffer",
+                  "x_qualificationDocuments",
+                  "x_eligibilityDocuments"
+                ]
+              },
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "relatedLots": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "relatedLots": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

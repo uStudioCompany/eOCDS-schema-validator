@@ -1,4 +1,5 @@
-{ "title": "JSON Schema for payload of Create CN (EV)",
+{
+  "title": "JSON Schema for payload of Create CN (EV)",
   "type": "object",
   "required": [
     "tender",
