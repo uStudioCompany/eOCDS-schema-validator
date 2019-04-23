@@ -548,6 +548,7 @@
               },
               "relatedLots": {
                 "type": "array",
+                "uniqueItems": true,
                 "minItems": 1,
                 "items": {
                   "type": "string"
