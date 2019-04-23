@@ -9,7 +9,8 @@
       "type": "object",
       "required": [
         "tenderers",
-        "relatedLots"
+        "relatedLots",
+        "value"
       ],
       "properties": {
         "tenderers": {
