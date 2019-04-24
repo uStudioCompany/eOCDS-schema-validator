@@ -474,9 +474,6 @@
                               },
                               "id": {
                                 "type": "string"
-                              },
-                              "description": {
-                                "type": "string"
                               }
                             },
                             "if": {
