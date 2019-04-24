@@ -1,4 +1,5 @@
 {
+  "title": "JSON Schema for payload of Create EI",
   "type": "object",
   "required": [
     "tender",
@@ -239,7 +240,8 @@
               "type": "string"
             },
             "url": {
-              "type": "string"
+              "type": "string",
+              "format": "uri"
             }
           }
         },

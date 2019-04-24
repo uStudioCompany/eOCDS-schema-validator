@@ -1,4 +1,5 @@
 {
+  "title": "JSON Schema for payload of Create FS",
   "type": "object",
   "required": [
     "tender",
@@ -174,7 +175,8 @@
                   "type": "string"
                 },
                 "url": {
-                  "type": "string"
+                  "type": "string",
+                  "format": "uri"
                 }
               }
             }
@@ -460,7 +462,8 @@
               "type": "string"
             },
             "url": {
-              "type": "string"
+              "type": "string",
+              "format": "uri"
             }
           }
         }

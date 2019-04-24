@@ -1,0 +1,20 @@
+{
+  "title": "JSON Schema for payload of Create Answer",
+  "type": "object",
+  "required": [
+    "enquiry"
+  ],
+  "properties": {
+    "enquiry": {
+      "type": "object",
+      "required": [
+        "answer"
+      ],
+      "properties": {
+        "answer": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
