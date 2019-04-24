@@ -19,7 +19,7 @@ body {
 }
 
 .preset-select {
-  width: 300px;
+  width: 350px;
   height: 35px;
   border-radius: 5px;
   background-color: #fff;
@@ -38,7 +38,7 @@ body {
   border-radius: 5px;
   background-color: #4c98f0;
   font-size: 16px;
-    color: #fff;
+  color: #fff;
   transition: 0.4s;
 }
 
@@ -90,6 +90,10 @@ body {
 
 .jsoneditor-outer > * {
   min-height: 50vh !important;
+}
+
+.jsoneditor-tree .jsoneditor-tree-inner {
+  padding-bottom: inherit !important;
 }
 
 .errors {

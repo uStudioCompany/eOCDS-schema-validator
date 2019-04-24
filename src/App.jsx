@@ -11,11 +11,17 @@ import "brace/theme/chrome";
 import budgetSchema from "./schemas/budget.json";
 import createEISchema from "./schemas/create-ei.json";
 import createFSSchema from "./schemas/create-fs.json";
+import createPNSchema from "./schemas/create-pn.json";
+import createCNEVSchema from "./schemas/create-cn-ev.json";
+import createEnquirySchema from "./schemas/create-enquiry.json";
+import createAnswerSchema from "./schemas/create-answer.json";
+import createBidSchema from "./schemas/create-bid.json";
+import createACSchema from "./schemas/create-ac.json";
 
 import "jsoneditor-react/es/editor.min.css";
 import "./App.css";
 
-const ajvForData = new Ajv({ allErrors: true, verbose: true, validateSchema: false });
+const ajvForData = new Ajv({ allErrors: true, verbose: true, validateSchema: false, unknownFormats: "ignore" });
 
 class App extends Component {
   constructor(props) {
@@ -29,8 +35,14 @@ class App extends Component {
       errorSchemaMessage: [],
       presetSchemas: {
         //budgetSchema,
-        "Schema for create EI": createEISchema,
-        "Schema for create FS": createFSSchema
+        [createEISchema.title]: createEISchema,
+        [createFSSchema.title]: createFSSchema,
+        [createPNSchema.title]: createPNSchema,
+        [createCNEVSchema.title]: createCNEVSchema,
+        [createEnquirySchema.title]: createEnquirySchema,
+        [createAnswerSchema.title]: createAnswerSchema,
+        [createBidSchema.title]: createBidSchema,
+        [createACSchema.title]: createACSchema,
       }
     };
   }
@@ -78,7 +90,7 @@ class App extends Component {
   };
 
   handleChangeSchema = (val) => {
-    const ajvForSchema = new Ajv();
+    const ajvForSchema = new Ajv({ allErrors: true });
 
     if (ajvForSchema.validateSchema(val)) {
       this.setState(
@@ -178,7 +190,7 @@ class App extends Component {
             />
           </div>
         </div>
-        {(!!errors.length || !!errorSchemaMessage.length) && <h3>Errors</h3>}
+        {!!errors.length && <h3>Errors</h3>}
         <div className="errors">
           {errors.map((error, i) => (
             <div className="error" key={i}>
@@ -209,6 +221,7 @@ class App extends Component {
           ))}
         </div>
 
+        {!!errorSchemaMessage.length && <h3>Errors in schema</h3>}
         <div className="errors">
           {errorSchemaMessage.map((error, i) => (
             <div className="error" key={i}>
