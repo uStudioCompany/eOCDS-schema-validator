@@ -18,6 +18,21 @@ body {
   padding: 15px;
 }
 
+.presets {
+  display: flex;
+}
+
+.schema-preset,
+.data-preset {
+  width: 50%;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.schema-preset {
+  margin-right: 5px;
+}
+
 .preset-select {
   width: 350px;
   height: 35px;
