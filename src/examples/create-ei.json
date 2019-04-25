@@ -1,0 +1,66 @@
+{
+  "tender": {
+    "title": "Provide a unique range of particle accelerator facilities that enable research at the forefront of human knowledge",
+    "description": "Perform world-class research in fundamental physics",
+    "classification": {
+      "id": "70100000-2",
+      "scheme": "CPV",
+      "description": "Virus protection software package"
+    }
+  },
+  "planning": {
+    "budget": {
+      "period": {
+        "startDate": "2019-01-01T00:00:00Z",
+        "endDate": "2022-12-22T22:22:22Z"
+      }
+    },
+    "rationale": "Unfortunately, spotting malicious or fraudulent e-mails is getting more and more difficult"
+  },
+  "buyer": {
+    "name": "Enotice and others",
+    "identifier": {
+      "scheme": "MD-IDNO",
+      "id": " 1001001000001",
+      "legalName": "Professionaltools",
+      "uri": "https://example.com"
+    },
+    "address": {
+      "streetAddress": " str.Kiev 55a",
+      "postalCode": "111-245-554",
+      "addressDetails": {
+        "country": {
+          "id": "MD"
+        },
+        "region": {
+          "id": "1000000"
+        },
+        "locality": {
+          "scheme": "ISO-2",
+          "id": "1001000000",
+          "description": "Travelinstyle"
+        }
+      }
+    },
+    "additionalIdentifiers": [
+      {
+        "scheme": "UK-GROD",
+        "id": "713-49-7544",
+        "legalName": "Burns-Davis PLC",
+        "uri": "https://example.com"
+      }
+    ],
+    "contactPoint": {
+      "name": "Jacqueline Soto",
+      "email": "EUPress@tesla.com",
+      "telephone": "724-095-39237",
+      "faxNumber": "897-612-1545",
+      "url": "https://www.tesla.com/contact"
+    },
+    "details": {
+      "typeOfBuyer": "MINISTRY",
+      "mainGeneralActivity": "HEALTH",
+      "mainSectoralActivity": "WATER"
+    }
+  }
+}
