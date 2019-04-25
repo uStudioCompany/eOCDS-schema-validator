@@ -48,10 +48,21 @@ class App extends Component {
   }
 
   componentDidMount() {
+    if (localStorage.getItem("schemaPreset")) {
+      const preset = localStorage.getItem("schemaPreset");
+      if (preset in this.state.presetSchemas) {
+        this.setState({ preset, inputSchema: this.state.presetSchemas[preset] }, () => {
+          this.schemaJsonEditor.set(this.state.presetSchemas[preset]);
+          this.validateInputs(this.state.inputSchema, this.state.inputData);
+        });
+      }
+    }
+
     if (localStorage.getItem("data")) {
       const data = JSON.parse(localStorage.getItem("data"));
       this.setState({ inputData: data }, () => {
         this.dataJsonEditor.set(data);
+        this.validateInputs(this.state.inputSchema, this.state.inputData);
       });
     }
   }
@@ -129,6 +140,7 @@ class App extends Component {
         this.validateInputs(this.state.inputSchema, this.state.inputData);
       }
     );
+    localStorage.setItem("schemaPreset", e.currentTarget.value);
   };
 
   saveDataToLocalStorage = async () => {
